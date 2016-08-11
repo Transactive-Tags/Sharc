@@ -24,6 +24,7 @@
 @property (strong, nonatomic) NSString *distanceText;
 @property (strong, nonatomic) NSString *merchantNameText;
 @property (strong, nonatomic) NSString *detailText;
+@property (strong, nonatomic) NSString *merchantID;
 
 @property (nonatomic) BOOL expanded;
 

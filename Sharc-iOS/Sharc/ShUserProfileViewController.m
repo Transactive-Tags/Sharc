@@ -8,6 +8,8 @@
 
 #import "ShUserProfileViewController.h"
 #import "ShUtils.h"
+#import "ShConstants.h"
+#import "ShUserProfileTableViewCell.h"
 
 @implementation ShUserProfileViewController {
     UIImageView *_profilePicture;
@@ -30,29 +32,32 @@
     _tableOptions = @[
                       @{
                           @"Label":@"Following",
-                          @"Icon":[UIImage imageNamed:@"profile_navbar_button"],
+                          @"Icon":[UIImage imageNamed:@"prof_follow_icon"],
                           @"Color":[ShUtils ShDarkGrayTextColor],
-                          @"Font-Size":@14,
+                          @"Font-Size":@18,
                           @"Action": [NSValue valueWithPointer:@selector(optionSelected)]
                         },
                       @{
                           @"Label":@"Settings",
-                          @"Icon":[UIImage imageNamed:@"profile_navbar_button"],
+                          @"Icon":[UIImage imageNamed:@"prof_settings_icon"],
                           @"Color":[ShUtils ShDarkGrayTextColor],
+                          @"Font-Size":@18,
                           @"Action": [NSValue valueWithPointer:@selector(optionSelected)]
                         },
+                      @{},
                       @{
                           @"Label":@"Become a Sharc Merchant",
-                          @"Icon":[UIImage imageNamed:@"profile_navbar_button"],
-                          @"Color":[ShUtils ShDarkGrayTextColor],
+                          @"Color":[UIColor greenColor],
+                          @"Font-Size":@14,
                           @"Action": [NSValue valueWithPointer:@selector(optionSelected)]
                         },
                       @{
                           @"Label":@"Sign Out",
-                          @"Icon":[UIImage imageNamed:@"profile_navbar_button"],
                           @"Color":[UIColor redColor],
+                          @"Font-Size":@14,
                           @"Action": [NSValue valueWithPointer:@selector(optionSelected)]
                         },
+                      @{},
                       ];
 }
 
@@ -67,7 +72,7 @@
 }
 
 -(void) renderProfilePicture {
-    _profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2 - 50, self.view.frame.size.height * .2 - 50, 100, 100)];
+    _profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2 - 50, self.view.frame.size.height * .25 - 50, 100, 100)];
     _profilePicture.layer.cornerRadius = _profilePicture.frame.size.width / 2;
     _profilePicture.clipsToBounds = YES;
     [_profilePicture setBackgroundColor:[UIColor blackColor]];
@@ -80,6 +85,7 @@
 -(void) renderLabels {
     _profileNameLabel = [[UILabel alloc] init];
     [_profileNameLabel setTextColor:[ShUtils ShDarkGrayTextColor]];
+    [_profileNameLabel setFont:[UIFont fontWithName:ShDefaultFontName size:18]];
     [_profileNameLabel setText:@"Clay Jones"];
     [_profileNameLabel sizeToFit];
     
@@ -88,9 +94,11 @@
 }
 
 -(void) renderTableView {
-    _tableview = [[UITableView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height/2)];
+    _tableview = [[UITableView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height * .5, self.view.frame.size.width, self.view.frame.size.height * .5)];
     [_tableview setDelegate:self];
     [_tableview setDataSource:self];
+    [_tableview setScrollEnabled:NO];
+    [_tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.view addSubview:_tableview];
 }
 
@@ -126,14 +134,22 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *cellIdentifier = @"Option Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    ShUserProfileTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+        cell = [[ShUserProfileTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
     }
     NSDictionary *cellOption = _tableOptions[indexPath.row];
-    cell.textLabel.textColor = cellOption[@"Color"];
-    cell.textLabel.text = cellOption[@"Label"];
+    cell.labelColor = cellOption[@"Color"];
+    cell.mainLabelText = cellOption[@"Label"];
+    if (cellOption[@"Icon"]) {
+        cell.iconImage = cellOption[@"Icon"];
+    }
+    cell.fontSize = cellOption[@"Font-Size"];
     return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return _tableview.frame.size.height / _tableOptions.count;
 }
 
 //# MARK: - tableview datasource

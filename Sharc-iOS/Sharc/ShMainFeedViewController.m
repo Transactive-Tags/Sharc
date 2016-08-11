@@ -12,18 +12,40 @@
 #import "ShUtils.h"
 #import "ShSearchViewController.h"
 #import "ShUserProfileViewController.h"
+#import "ShDatabase.h"
 
 @implementation ShMainFeedViewController {
     UITableView *_tableview;
     NSInteger _expandedCell;
+    NSArray *_deals;
+    UIRefreshControl *_refreshControl;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //Background of Status bar
+    UIView *whiteView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [UIApplication sharedApplication].statusBarFrame.size.height)];
+    [whiteView setBackgroundColor:[UIColor whiteColor]];
+    [self.navigationController.view addSubview:whiteView];
+    
+    [ShDatabase getDealsWithBlock:^(NSArray *data) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _deals = data;
+            [_tableview reloadData];
+        });
+    }];
     [self renderLayout];
 }
 
 -(void) renderLayout {
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+    
+    self.edgesForExtendedLayout=UIRectEdgeNone;
+    self.extendedLayoutIncludesOpaqueBars=YES;
+    self.automaticallyAdjustsScrollViewInsets=NO;
+    
+    self.navigationController.navigationBar.tintColor = [ShUtils ShDarkGrayTextColor];
     
     UILabel *titleLabel = [UILabel new];
     [titleLabel setText:@"Deals"];
@@ -46,18 +68,32 @@
     UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     self.navigationItem.leftBarButtonItem = leftBarButtonItem;
     
-    _tableview = [[UITableView alloc] initWithFrame:self.view.frame];
+    _tableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height - [[UIApplication sharedApplication] statusBarFrame].size.height)];
     [_tableview setDelegate:self];
     [_tableview setDataSource:self];
     [_tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.view addSubview:_tableview];
     
+    _refreshControl = [[UIRefreshControl alloc] init];
+    [_refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+    [_tableview insertSubview:_refreshControl atIndex:0];
+    
     _expandedCell = NO_EXPANDED_CELLS;
+}
+
+-(void) handleRefresh: (UIRefreshControl *) refreshControl {
+    [_refreshControl beginRefreshing];
+    [ShDatabase getDealsWithBlock:^(NSArray *data) {
+        _deals = data;
+        [_tableview reloadData];
+        [_refreshControl endRefreshing];
+    }];
 }
 
 #pragma TableView Delegate/Datasource
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *deal = _deals[indexPath.section];
     if (indexPath.row == 0) {
         static NSString *cellIdentifier = @"FeedCell";
         ShFeedMainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -65,11 +101,14 @@
             cell = [[ShFeedMainTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.mainText = @"Main Text";
-        cell.subText = @"Sub Text";
-        cell.merchantNameText = @"Merchant name text";
+        cell.mainText = deal[@"deal_text"];
+        cell.subText = deal[@"sub_text"];
+        cell.merchantNameText = deal[@"merchant"][@"name"];
+        cell.merchantID = deal[@"merchant"][@"merchant_id"];
         cell.distanceText = @"3.2mi";
         [self addSeperatorToCell:cell];
+        cell.backgroundImage = nil;
+        [self uploadImageForCellIndexPath:indexPath andDealID:deal[@"_id"]];
         return cell;
     }
     static NSString *cellId = @"ExpandedCell";
@@ -79,14 +118,27 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor whiteColor];
-    cell.mainText = @"Main Text";
-    cell.subText = @"Sub Text";
-    cell.merchantNameText = @"Merchant name text";
+    cell.mainText = deal[@"deal_text"];
+    cell.subText = deal[@"sub_text"];
+    cell.merchantNameText = deal[@"merchant"][@"name"];
+    cell.merchantID = deal[@"merchant"][@"merchant_id"];
     cell.distanceText = @"3.2mi";
-    cell.detailText = @"$2 off any purchase of a large sub and a large soda. Only at this participating location. Present this deal at the counter.";
+    cell.detailText = deal[@"details"];
     cell.delegate = self;
     [self addSeperatorToCell:cell];
     return cell;
+}
+
+-(void) uploadImageForCellIndexPath: (NSIndexPath *) indexPath andDealID: (NSString *) dealID {
+    [ShDatabase getImageForDealID:dealID withBlock:^(UIImage *image) {
+        if (image) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                ShFeedMainTableViewCell *updateCell = (ShFeedMainTableViewCell *)[_tableview cellForRowAtIndexPath:indexPath];
+                if (updateCell)
+                    updateCell.backgroundImage = image;
+            });
+        }
+    }];
 }
 
 -(void) addSeperatorToCell: (UITableViewCell *)cell {
@@ -97,7 +149,7 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 8;
+    return _deals.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -108,6 +160,9 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 1) {
+        return MAINFEED_CELL_EXPANDED_HEIGHT;
+    }
     return MAINFEED_CELL_HEIGHT;
 }
 
@@ -137,6 +192,7 @@
 
 -(void)shExpandedCell:(ShFeedExpandedTableViewCell *)cell merchantButtonSelected:(NSString *)merchantID {
     ShMerchantProfileViewController *controller = [ShMerchantProfileViewController new];
+    [controller setMerchantID:merchantID];
     [self.navigationController pushViewController:controller animated:YES];
 }
 

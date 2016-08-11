@@ -23,6 +23,7 @@
 @synthesize distanceText = _distanceText;
 @synthesize merchantNameText = _merchantNameText;
 @synthesize detailText = _detailText;
+@synthesize merchantID = _merchantID;
 
 @synthesize expanded = _expanded;
 
@@ -52,7 +53,7 @@
         _merchantNameTextLabel = [UIButton new];
         [_merchantNameTextLabel.titleLabel setFont:[UIFont fontWithName:ShDefaultFontName size:12]];
         [_merchantNameTextLabel.titleLabel setTintColor:[UIColor blueColor]];
-        [_merchantNameTextLabel setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [_merchantNameTextLabel setTitleColor:[ShUtils ShBlueTextColor] forState:UIControlStateNormal];
         [_merchantNameTextLabel setUserInteractionEnabled:YES];
         [_merchantNameTextLabel addTarget:self action:@selector(merchantButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_merchantNameTextLabel];
@@ -119,7 +120,7 @@
 }
 
 -(void) merchantButtonSelected: (UIButton *) sender {
-    [self.delegate shExpandedCell:self merchantButtonSelected:@"merchantID"];
+    [self.delegate shExpandedCell:self merchantButtonSelected:_merchantID];
 }
 
 @end

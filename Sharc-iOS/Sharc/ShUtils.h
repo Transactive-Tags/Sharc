@@ -16,5 +16,7 @@
 +(UIColor *) tableViewCellOverlayColor;
 +(UIColor *) ShDarkGrayTextColor;
 +(UIColor *) ShLightGrayColor;
++(UIColor *) ShLightGrayBackgroundColor;
++(UIColor *) ShBlueTextColor;
 
 @end

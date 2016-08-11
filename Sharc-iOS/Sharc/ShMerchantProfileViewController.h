@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ShMerchantProfileViewController : UIViewController <UIScrollViewDelegate>
+@interface ShMerchantProfileViewController : UIViewController <UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource>
+
+@property (strong, nonatomic) NSString *merchantID;
 
 @end

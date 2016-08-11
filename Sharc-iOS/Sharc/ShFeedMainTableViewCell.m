@@ -25,6 +25,7 @@
 @synthesize distanceText = _distanceText;
 @synthesize merchantNameText = _merchantNameText;
 @synthesize expanded = _expanded;
+@synthesize backgroundImage = _backgroundImage;
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -34,7 +35,7 @@
         _distanceText = @"";
         _merchantNameText = @"";
         
-        _imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sandwich"]];
+        _imageView = [[UIImageView alloc] init];
         [self setBackgroundView:_imageView];
         
         _overlayView = [UIView new];
@@ -43,22 +44,22 @@
         [_overlayView setAlpha:.6f];
         
         _mainTextLabel = [UILabel new];
-        [_mainTextLabel setFont:[UIFont fontWithName:ShDefaultFontName size:24]];
+        [_mainTextLabel setFont:[UIFont fontWithName:ShDefaultBoldFontName size:24]];
         [_mainTextLabel setTextColor:[UIColor whiteColor]];
         [self addSubview:_mainTextLabel];
         
         _subTextLabel = [UILabel new];
-        [_subTextLabel setFont:[UIFont fontWithName:ShDefaultFontName size:16]];
+        [_subTextLabel setFont:[UIFont fontWithName:ShDefaultBoldFontName size:18]];
         [_subTextLabel setTextColor:[UIColor whiteColor]];
         [self addSubview:_subTextLabel];
         
         _distanceTextLabel = [UILabel new];
-        [_distanceTextLabel setFont:[UIFont fontWithName:ShDefaultFontName size:12]];
+        [_distanceTextLabel setFont:[UIFont fontWithName:ShDefaultFontName size:16]];
         [_distanceTextLabel setTextColor:[UIColor whiteColor]];
         [self addSubview:_distanceTextLabel];
         
         _merchantNameTextLabel = [UILabel new];
-        [_merchantNameTextLabel setFont:[UIFont fontWithName:ShDefaultFontName size:12]];
+        [_merchantNameTextLabel setFont:[UIFont fontWithName:ShDefaultFontName size:16]];
         [_merchantNameTextLabel setTextColor:[UIColor whiteColor]];
         [self addSubview:_merchantNameTextLabel];
     }
@@ -108,6 +109,11 @@
             }
         }
     }];
+}
+
+-(void)setBackgroundImage:(UIImage *)backgroundImage {
+    _backgroundImage = backgroundImage;
+    [_imageView setImage:backgroundImage];
 }
 
 -(void)layoutSubviews {

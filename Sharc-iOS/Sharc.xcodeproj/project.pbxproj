@@ -23,6 +23,9 @@
 		928686F61D467A1700C38282 /* ShSuggestedSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 928686F51D467A1700C38282 /* ShSuggestedSearchViewController.m */; };
 		928686F91D467A9E00C38282 /* ShSearchAutocompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 928686F81D467A9E00C38282 /* ShSearchAutocompleteViewController.m */; };
 		928686FD1D467AEB00C38282 /* ShSearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 928686FC1D467AEB00C38282 /* ShSearchResultsViewController.m */; };
+		928687001D4810EC00C38282 /* ShUserProfileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 928686FF1D4810EC00C38282 /* ShUserProfileTableViewCell.m */; };
+		928687031D4AAA1300C38282 /* ShDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 928687021D4AAA1300C38282 /* ShDatabase.m */; };
+		92D34D001D526CDA00F77798 /* ShDealTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92D34CFF1D526CDA00F77798 /* ShDealTableViewCell.m */; };
 		DD4968215BEF9F0167B44A42 /* libPods-Sharc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE745785D04E9EE352EBB336 /* libPods-Sharc.a */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +83,12 @@
 		928686F81D467A9E00C38282 /* ShSearchAutocompleteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShSearchAutocompleteViewController.m; sourceTree = "<group>"; };
 		928686FB1D467AEB00C38282 /* ShSearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShSearchResultsViewController.h; sourceTree = "<group>"; };
 		928686FC1D467AEB00C38282 /* ShSearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShSearchResultsViewController.m; sourceTree = "<group>"; };
+		928686FE1D4810EC00C38282 /* ShUserProfileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShUserProfileTableViewCell.h; sourceTree = "<group>"; };
+		928686FF1D4810EC00C38282 /* ShUserProfileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShUserProfileTableViewCell.m; sourceTree = "<group>"; };
+		928687011D4AAA1300C38282 /* ShDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShDatabase.h; sourceTree = "<group>"; };
+		928687021D4AAA1300C38282 /* ShDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShDatabase.m; sourceTree = "<group>"; };
+		92D34CFE1D526CDA00F77798 /* ShDealTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShDealTableViewCell.h; sourceTree = "<group>"; };
+		92D34CFF1D526CDA00F77798 /* ShDealTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShDealTableViewCell.m; sourceTree = "<group>"; };
 		CE745785D04E9EE352EBB336 /* libPods-Sharc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sharc.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -146,6 +155,8 @@
 				928686EB1D42ADD900C38282 /* ShMerchantProfileViewController.m */,
 				928686F11D42BDFE00C38282 /* ShUserProfileViewController.h */,
 				928686F21D42BDFE00C38282 /* ShUserProfileViewController.m */,
+				928686FE1D4810EC00C38282 /* ShUserProfileTableViewCell.h */,
+				928686FF1D4810EC00C38282 /* ShUserProfileTableViewCell.m */,
 				928686FA1D467AA300C38282 /* Search */,
 				928686DD1D418A9900C38282 /* ShConstants.h */,
 				928686ED1D42BBAD00C38282 /* Main Feed */,
@@ -154,6 +165,10 @@
 				928686AD1D4183BC00C38282 /* Assets.xcassets */,
 				928686B21D4183BC00C38282 /* Info.plist */,
 				928686A11D4183BC00C38282 /* Supporting Files */,
+				928687011D4AAA1300C38282 /* ShDatabase.h */,
+				928687021D4AAA1300C38282 /* ShDatabase.m */,
+				92D34CFE1D526CDA00F77798 /* ShDealTableViewCell.h */,
+				92D34CFF1D526CDA00F77798 /* ShDealTableViewCell.m */,
 			);
 			path = Sharc;
 			sourceTree = "<group>";
@@ -406,7 +421,10 @@
 			files = (
 				928686D61D4185C800C38282 /* ShMainFeedViewController.m in Sources */,
 				928686A61D4183BC00C38282 /* AppDelegate.m in Sources */,
+				92D34D001D526CDA00F77798 /* ShDealTableViewCell.m in Sources */,
 				928686EC1D42ADD900C38282 /* ShMerchantProfileViewController.m in Sources */,
+				928687031D4AAA1300C38282 /* ShDatabase.m in Sources */,
+				928687001D4810EC00C38282 /* ShUserProfileTableViewCell.m in Sources */,
 				928686F01D42BBE400C38282 /* ShSearchViewController.m in Sources */,
 				928686E91D41B21100C38282 /* ShUtils.m in Sources */,
 				928686A31D4183BC00C38282 /* main.m in Sources */,

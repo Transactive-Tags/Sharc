@@ -35,4 +35,18 @@
                            alpha:0.20f];
 }
 
++(UIColor *) ShLightGrayBackgroundColor {
+    return [UIColor colorWithRed:(246.0f/255.0)
+                           green:(248.0f/255.0)
+                            blue:(250.0f/255.0)
+                           alpha:1.0f];
+}
+
++(UIColor *) ShBlueTextColor {
+    return [UIColor colorWithRed:(74.0f/255.0)
+                           green:(144.0f/255.0)
+                            blue:(226.0f/255.0)
+                           alpha:1.0f];
+}
+
 @end
